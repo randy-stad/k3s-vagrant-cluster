@@ -1,8 +1,10 @@
 #!/bin/bash
 set -eux
 
+# install needed packages
+dnf install -y grubby jq
+
 # need to switch to cgroups v1
-dnf install -y grubby
 grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 
 # need legacy iptables

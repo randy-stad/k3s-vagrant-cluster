@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
 
     config.vm.define vm_name do |s|
 
-      s.vm.hostname = "#{vm_name}.local"
+      s.vm.hostname = "#{vm_name}.cluster.test"
       s.vm.box = "generic/fedora31"
       private_ip = "192.168.33.#{i+10}"
       s.vm.network "private_network", ip: private_ip, netmask: "255.255.255.0", auto_config: true
@@ -30,6 +30,8 @@ Vagrant.configure(2) do |config|
         # master
         s.vm.provision "shell", path: 'provision-master.sh', args: [$k3s_token, private_ip]
         s.vm.provision "shell", path: 'provision-traefik.sh'
+        s.vm.provision "shell", path: 'provision-dashboard.sh'
+        s.vm.synced_folder '.', '/vagrant', type: ""
       else
         # agent
         # s.vm.provision "shell", inline: $configureNode
