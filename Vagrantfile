@@ -7,8 +7,7 @@ $k3s_token = %x[ openssl rand -hex 32 ]
 
 Vagrant.configure(2) do |config|
 
-  # node_num=3
-  node_num=1
+  node_num = 2 # 1 master, 2 agents
 
   (1..node_num).each do |i|
     if i == 1 then
@@ -17,6 +16,7 @@ Vagrant.configure(2) do |config|
       vm_name = "k3s-agent-#{i-1}"
     end
 
+    master_ip = "192.168.33.11"
     config.vm.define vm_name do |s|
 
       s.vm.hostname = "#{vm_name}.cluster.test"
@@ -30,11 +30,9 @@ Vagrant.configure(2) do |config|
         # master
         s.vm.provision "shell", path: 'provision-master.sh', args: [$k3s_token, private_ip]
         s.vm.provision "shell", path: 'provision-traefik.sh'
-        s.vm.provision "shell", path: 'provision-dashboard.sh'
-        s.vm.synced_folder '.', '/vagrant', type: ""
       else
         # agent
-        # s.vm.provision "shell", inline: $configureNode
+        s.vm.provision "shell", path: 'provision-agent.sh', args: [$k3s_token, master_ip, private_ip]
       end
     end
   end
