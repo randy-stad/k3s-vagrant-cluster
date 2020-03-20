@@ -5,6 +5,9 @@ k3s_token="$1"; shift
 ip_address="$1"; shift
 fqdn="$(hostname --fqdn)"
 
+# allow stuff through the firewall (iptables now in legacy mode)
+iptables -I INPUT -p tcp --dport 6443 -j ACCEPT
+
 # install k3s
 curl -sfL https://get.k3s.io \
     | \
