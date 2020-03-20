@@ -9,3 +9,6 @@ grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 
 # need legacy iptables
 update-alternatives --set iptables /usr/sbin/iptables-legacy
+
+# disable selinux
+printf "SELINUX=disabled\n" > /etc/sysconfig/selinux
