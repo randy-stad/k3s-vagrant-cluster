@@ -31,7 +31,7 @@ Vagrant.configure(2) do |config|
         # not quite yet: s.vm.synced_folder "./", "/vagrant/", disabled: false, create: true
         s.vm.provision "shell", path: 'provision-master.sh', args: [$k3s_token, private_ip]
         s.vm.provision "shell", path: 'provision-traefik.sh'
-        s.vm.provision "shell", path: 'provision-k8dash.sh'
+        s.vm.provision "shell", path: 'provision-dashboard.sh'
       else
         # agent
         s.vm.provision "shell", path: 'provision-agent.sh', args: [$k3s_token, master_ip, private_ip]

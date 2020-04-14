@@ -41,12 +41,14 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1beta1
 metadata:
   name: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-    - host: dashboard.cluster.test
-      http:
-        paths:
-          - backend:
-              serviceName: kubernetes-dashboard
-              servicePort: 443
+  - host: dashboard.cluster.test
+    http:
+      paths:
+      - backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
 EOF
